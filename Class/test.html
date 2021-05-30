@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class</title>
+</head>
+<body>
+    <script>
+
+        // program showing block-scoped concept
+        // global variable
+        let a = 'Hello';
+
+        function greet() {
+            a = 'test'
+
+            // local variable
+            let b = 'World';
+
+            console.log(a + ' ' + b)
+        }
+        console.log(a)
+        setTimeout(() => { console.log(a) }, 2000)
+        
+
+        greet();
+
+        function timeout(ms) {
+            let data = {}
+            return new Promise((resolve, reject) => {
+                data.test = 'test'
+                setTimeout(resolve, ms)
+            }).then((data1) => {
+                console.log(data)
+                return new Promise((resolve, reject) => {
+                    setTimeout(resolve, ms)
+                })
+            });
+        }
+
+        async function printString(){
+            //console.log("Tom");
+            var a;
+            //await timeout(3000);
+            //console.log(a)
+            //console.log("Mark")
+        }
+
+        printString();
+    </script>
+</body>
+</html>
