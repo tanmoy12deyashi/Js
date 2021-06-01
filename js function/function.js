@@ -50,15 +50,27 @@ getOrdinalNum = (n) => n + (n > 0 ? ['th', 'st', 'nd', 'rd'][(n > 3 && n < 21) |
 
 // get date time format
 dateTimeFormat = (d, rtnFmt, prmFmt) => {
-    let pmf = ['dd', 'mm'], t;
+    let pmf = ['dd', 'mm'], t, c = new Date();
     // set return format
     rtnFmt = rtnFmt || 'dd-mm-yyyy';
+    // check is valid date
+    let isDate = (_d) => 0 < Number(_d) && Number(_d) < 32;
+    // check is valid month
+    let isMonth = (_m) => 0 < Number(_m) && Number(_m) < 13;
+
     // check params
-    if(typeof d == 'undefined' || (typeof d != 'undefined' && d == 'now')) d = new Date();
-    else if(typeof d != 'undefined' && typeof prmFmt == 'undefined') d = new Date(d);
-    else {
-        return 'test';
-    }
+    if(typeof d == 'undefined' || (typeof d != 'undefined' && d == 'now')) d = c;
+    else if(typeof d != 'undefined' && typeof prmFmt == 'undefined') {
+        if(!isNaN(Number(d))) d = new Date(Number(d));
+        else {
+            d = d.split(/[.\-_/ ]/);
+            if (d.length == 3 && isDate(d[0]) && isMonth(d[1])) d = new Date(d[2].length == 2 ? Math.floor(c.getFullYear()/100) + d[2] : d[2],d[1]-1,d[0]);
+            else return `Invalid ${!isDate(d[0]) ? 'Date' : !isMonth(d[1]) ? 'Month' : 'Format'}`;
+        }
+    } else if(typeof d != 'undefined' && typeof prmFmt != 'undefined') {
+        //if(prmFmt.trim())
+    } else return 'Something went wrong';
+    console.log(d)
 
     // set days
     let shtDs = ['Sun', 'Mon', 'Tue', 'Web', 'Thu', 'Fri', 'Sat'];
@@ -103,8 +115,12 @@ dateTimeFormat = (d, rtnFmt, prmFmt) => {
     if(rtnFmt.includes('yyyy')) rtnFmt = rtnFmt.replace('yyyy', t);
     else if(rtnFmt.includes('yy')) rtnFmt = rtnFmt.replace('yy', t.toString().substr(-2));
 
-    console.log(rtnFmt)
-    //date = new Date(date)
-    console.log(d)
+    //console.log(d)
     //console.log(rtnFmt)
+    return rtnFmt;
 }
+
+console.log(dateTimeFormat)
+
+//https://codebeautify.org/minify-js
+//https://minify.js.org/js/
