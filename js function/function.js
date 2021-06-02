@@ -49,8 +49,8 @@ mergeObject = (...arguments) => {
 getOrdinalNum = (n) => n + (n > 0 ? ['th', 'st', 'nd', 'rd'][(n > 3 && n < 21) || n % 10 > 3 ? 0 : n % 10] : '');
 
 // get date time format
-dateTimeFormat = (d, rtnFmt, prmFmt) => {
-    let pmf = ['dd', 'mm'], t, c = new Date();
+function dateTimeFormat(d, rtnFmt, prmFmt) {
+    let pmf = ['mm-dd-yyyy', 'm-d-yyyy'], t, c = new Date();
     // set return format
     rtnFmt = rtnFmt || 'dd-mm-yyyy';
     // check is valid date
@@ -63,12 +63,23 @@ dateTimeFormat = (d, rtnFmt, prmFmt) => {
     else if(typeof d != 'undefined' && typeof prmFmt == 'undefined') {
         if(!isNaN(Number(d))) d = new Date(Number(d));
         else {
-            d = d.split(/[.\-_/ ]/);
-            if (d.length == 3 && isDate(d[0]) && isMonth(d[1])) d = new Date(d[2].length == 2 ? Math.floor(c.getFullYear()/100) + d[2] : d[2],d[1]-1,d[0]);
-            else return `Invalid ${!isDate(d[0]) ? 'Date' : !isMonth(d[1]) ? 'Month' : 'Format'}`;
+            //d = d.split(/[.\-_/ ]/);
+            // filter date
+            d = d.trim().split(/[.\-_/ ]/).filter((_d) => _d.length);
+            if(d.length == 3 && d[0].length == 4 && isDate(d[2]) && isMonth(d[1])) d = new Date(d.join('-'));
+            else if (d.length == 3 && isDate(d[0]) && isMonth(d[1])) d = new Date(d[2].length == 2 ? Math.floor(c.getFullYear()/100) + d[2] : d[2],d[1]-1,d[0]);
+            else return `Invalid ${!isDate(d[d[0].length != 4 ? 0 : 2]) ? 'Date' : !isMonth(d[1]) ? 'Month' : 'Format'}`;
         }
     } else if(typeof d != 'undefined' && typeof prmFmt != 'undefined') {
-        //if(prmFmt.trim())
+        // update p format
+        prmFmt = prmFmt.trim().replace(/[.\-_/ ]/g,' ').split(' ').filter((_d) => _d.length).join('-');
+        // filter date
+        d = d.trim().split(/[.\-_/ ]/).filter((_d) => _d.length);
+        
+        // check format
+        if([pmf[0], pmf[1]].includes(prmFmt) && d.length == 3 && isDate(d[1]) && isMonth(d[0])) d = new Date(d[2],d[0]-1,d[1]);
+        else return 'This input date format is not valid, We are working on it';
+        console.log(prmFmt)
     } else return 'Something went wrong';
     console.log(d)
 
@@ -120,7 +131,26 @@ dateTimeFormat = (d, rtnFmt, prmFmt) => {
     return rtnFmt;
 }
 
+/*dateTimeFormat.prototype.add = function(v) {
+    console.log(11111)
+    console.log(this.d)
+}*/
+//dateTimeFormat = new DateTimeFormat()
+/*function personConstructor(fName, lName) {
+    this.fName = fName;
+    this.lName = lName;
+}
+personConstructor.prototype.welcome = function () {
+    return "Welcome " + this.fName + " " + this.lName;
+};
+//const person = new dateTimeFormat();
+//console.log(person)
+
+function add(d){
+    console.log(d)
+}
 console.log(dateTimeFormat)
+console.log(personConstructor)*/
 
 //https://codebeautify.org/minify-js
 //https://minify.js.org/js/
