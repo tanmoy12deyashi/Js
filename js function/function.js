@@ -50,36 +50,43 @@ getOrdinalNum = (n) => n + (n > 0 ? ['th', 'st', 'nd', 'rd'][(n > 3 && n < 21) |
 
 // get date time format
 function dateTimeFormat(d, rtnFmt, prmFmt) {
-    let pmf = ['mm-dd-yyyy', 'm-d-yyyy'], t, c = new Date();
+    // set default var
+    let pmf = ['%d%m%y', '%y%m%d', '%m%d%y'], t, c = new Date();
     // set return format
     rtnFmt = rtnFmt || 'dd-mm-yyyy';
     // check is valid date
     let isDate = (_d) => 0 < Number(_d) && Number(_d) < 32;
     // check is valid month
     let isMonth = (_m) => 0 < Number(_m) && Number(_m) < 13;
+    // check is valid year
+    let isYear = (_y) => [2,4].includes(_y.length);
 
     // check params
     if(typeof d == 'undefined' || (typeof d != 'undefined' && d == 'now')) d = c;
     else if(typeof d != 'undefined' && typeof prmFmt == 'undefined') {
         if(!isNaN(Number(d))) d = new Date(Number(d));
         else {
-            //d = d.split(/[.\-_/ ]/);
             // filter date
             d = d.trim().split(/[.\-_/ ]/).filter((_d) => _d.length);
             if(d.length == 3 && d[0].length == 4 && isDate(d[2]) && isMonth(d[1])) d = new Date(d.join('-'));
-            else if (d.length == 3 && isDate(d[0]) && isMonth(d[1])) d = new Date(d[2].length == 2 ? Math.floor(c.getFullYear()/100) + d[2] : d[2],d[1]-1,d[0]);
-            else return `Invalid ${!isDate(d[d[0].length != 4 ? 0 : 2]) ? 'Date' : !isMonth(d[1]) ? 'Month' : 'Format'}`;
+            else if (d.length == 3 && isDate(d[0]) && isMonth(d[1]) && isYear(d[2])) d = new Date(d[2].length == 2 ? Math.floor(c.getFullYear()/100) + d[2] : d[2],d[1]-1,d[0]);
+            else return `Invalid ${!isDate(d[d[0].length != 4 ? 0 : 2]) ? 'Date' : !isMonth(d[1]) ? 'Month' : !isYear(d[d[0].length != 4 ? 2 : 0]) ? 'Year' : 'Format'}`;
         }
     } else if(typeof d != 'undefined' && typeof prmFmt != 'undefined') {
         // update p format
-        prmFmt = prmFmt.trim().replace(/[.\-_/ ]/g,' ').split(' ').filter((_d) => _d.length).join('-');
+        //prmFmt = prmFmt.trim().replace(/[.\-_/ ]/g,' ').split(' ').filter((_d) => _d.length).join('-');
+        let _y, _m, _d, _h=0, _i=0, _s=0;
         // filter date
         d = d.trim().split(/[.\-_/ ]/).filter((_d) => _d.length);
-        
-        // check format
-        if([pmf[0], pmf[1]].includes(prmFmt) && d.length == 3 && isDate(d[1]) && isMonth(d[0])) d = new Date(d[2],d[0]-1,d[1]);
-        else return 'This input date format is not valid, We are working on it';
         console.log(prmFmt)
+        // check format
+        if(prmFmt.includes(pmf[0]))  _y = d[2], _m = d[1], _d = d[0];
+        else if(prmFmt.includes(pmf[1])) _y = d[0], _m = d[1], _d = d[2];
+        else if(prmFmt.includes(pmf[2])) _y = d[2], _m = d[0], _d = d[1];
+        else return 'This input date format is not valid, We are working on it';
+
+        if (d.length == 3 && isDate(_d) && isMonth(_m) && isYear(_y)) d = new Date(_y.length == 2 ? Math.floor(c.getFullYear()/100) + _y : _y,_m-1,_d);
+        else return `Invalid ${!isDate(_d) ? 'Date' : !isMonth(_m) ? 'Month' : !isYear(_y) ? 'Year' : 'Format'}`;
     } else return 'Something went wrong';
     console.log(d)
 
@@ -126,8 +133,6 @@ function dateTimeFormat(d, rtnFmt, prmFmt) {
     if(rtnFmt.includes('yyyy')) rtnFmt = rtnFmt.replace('yyyy', t);
     else if(rtnFmt.includes('yy')) rtnFmt = rtnFmt.replace('yy', t.toString().substr(-2));
 
-    //console.log(d)
-    //console.log(rtnFmt)
     return rtnFmt;
 }
 
