@@ -54,6 +54,8 @@ function dateTimeFormat(d, rtnFmt, prmFmt) {
     let pmf = ['%d%m%y', '%y%m%d', '%m%d%y'], t, c = new Date();
     // set return format
     rtnFmt = rtnFmt || 'dd-mm-yyyy';
+    // check rtn format
+    if(rtnFmt.includes('%') && pmf.includes(rtnFmt.toLocaleLowerCase())) if((typeof prmFmt != 'undefined' && prmFmt.includes('%'))) { return 'Something went erong'} else { prmFmt = rtnFmt, rtnFmt = 'dd-mm-yyyy'};
     // check is valid date
     let isDate = (_d) => 0 < Number(_d) && Number(_d) < 32;
     // check is valid month
@@ -64,7 +66,7 @@ function dateTimeFormat(d, rtnFmt, prmFmt) {
     // check params
     if(typeof d == 'undefined' || (typeof d != 'undefined' && d == 'now')) d = c;
     else if(typeof d != 'undefined' && typeof prmFmt == 'undefined') {
-        if(!isNaN(Number(d))) d = new Date(Number(d));
+        if(!isNaN(Number(d))) d.includes('.')?console.warn('This is timestamp'):'', d = new Date(Number(d));
         else {
             // filter date
             d = d.trim().split(/[.\-_/ ]/).filter((_d) => _d.length);
@@ -74,11 +76,12 @@ function dateTimeFormat(d, rtnFmt, prmFmt) {
         }
     } else if(typeof d != 'undefined' && typeof prmFmt != 'undefined') {
         // update p format
+        prmFmt = prmFmt.toLocaleLowerCase();
         //prmFmt = prmFmt.trim().replace(/[.\-_/ ]/g,' ').split(' ').filter((_d) => _d.length).join('-');
         let _y, _m, _d, _h=0, _i=0, _s=0;
         // filter date
         d = d.trim().split(/[.\-_/ ]/).filter((_d) => _d.length);
-        console.log(prmFmt)
+
         // check format
         if(prmFmt.includes(pmf[0]))  _y = d[2], _m = d[1], _d = d[0];
         else if(prmFmt.includes(pmf[1])) _y = d[0], _m = d[1], _d = d[2];
@@ -88,7 +91,6 @@ function dateTimeFormat(d, rtnFmt, prmFmt) {
         if (d.length == 3 && isDate(_d) && isMonth(_m) && isYear(_y)) d = new Date(_y.length == 2 ? Math.floor(c.getFullYear()/100) + _y : _y,_m-1,_d);
         else return `Invalid ${!isDate(_d) ? 'Date' : !isMonth(_m) ? 'Month' : !isYear(_y) ? 'Year' : 'Format'}`;
     } else return 'Something went wrong';
-    console.log(d)
 
     // set days
     let shtDs = ['Sun', 'Mon', 'Tue', 'Web', 'Thu', 'Fri', 'Sat'];
