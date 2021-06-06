@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- Formatting Html-->
+
+    <!-- An abbreviation is marked up as follows:-->
+    The <abbr title="World Health Organization">WHO</abbr> was founded in 1948.
+    <!-- The <abbr> tag defines an abbreviation or an acronym, like "HTML", "CSS", "Mr.", "Dr.", "ASAP", "ATM".-->
+    <!-- Tip: Use the global title attribute to show the description for the abbreviation/acronym when you mouse over the element.-->
+
+    <!-- Contact information for Example.com:-->
+    <address>
+        Written by <a href="mailto:webmaster@example.com">Jon Doe</a>.<br>
+        Visit us at:<br>
+        Example.com<br>
+        Box 564, Disneyland<br>
+        USA
+    </address>
+    <!-- The <address> tag defines the contact information for the author/owner of a document or an article.-->
+    <!-- The contact information can be an email address, URL, physical address, phone number, social media handle, etc.-->
+    <!-- The text in the <address> element usually renders in italic, and browsers will always add a line break before and after the <address> element.-->
+
+    <!-- Isolate the usernames from the surrounding text-direction settings:-->
+    <p>This is normal text - <b>and this is bold text</b>.</p>
+    <!-- Use CSS to set bold text:-->
+    <p>This is normal text - <span style="font-weight:bold;">and this is bold text</span>.</p>
+
+    <!-- The <b> tag specifies bold text without any extra importance.-->
+    <!-- Note: According to the HTML5 specification, the <b> tag should be used as a LAST resort when no other tag is more appropriate. The specification states that headings should be denoted with the <h1> to <h6> tags, emphasized text should be denoted with the <em> tag, important text should be denoted with the <strong> tag, and marked/highlighted text should be denoted with the <mark> tag.-->
+    <!-- Tip: You can also use the following CSS to set bold text: "font-weight: bold;".-->
+
+    <!-- Isolate the usernames from the surrounding text-direction settings-->
+    <ul>
+        <li>User <bdi>hrefs</bdi>: 60 points</li>
+        <li>User <bdi>jdoe</bdi>: 80 points</li>
+        <li>User <bdi>إيان</bdi>: 90 points</li>
+    </ul>
+    <!-- BDI stands for Bi-Directional Isolation.-->
+    <!-- The <bdi> tag isolates a part of text that might be formatted in a different direction from other text outside it.-->
+    <!-- This element is useful when embedding user-generated content with an unknown text direction-->
+
+
+    <!-- Specify the text direction-->
+    <bdo dir="rtl">This text will go right-to-left.</bdo>
+    <!-- BDO stands for Bi-Directional Override.-->
+    <!-- The <bdo> tag is used to override the current text direction.-->
+
+    <!-- A section that is quoted from another source:-->
+    <blockquote cite="http://www.worldwildlife.org/who/index.html">For 50 years, WWF has been protecting the future of nature. The world's leading conservation organization, WWF works in 100 countries and is supported by 1.2 million members in the United States and close to 5 million globally.</blockquote>
+    <!-- The <blockquote> tag specifies a section that is quoted from another source.-->
+    <!-- Browsers usually indent <blockquote> elements (look at example below to see how to remove the indentation).-->
+    <!-- Tip: Use <q> for inline (short) quotations.-->
+</body>
+</html>

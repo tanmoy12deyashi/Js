@@ -17,10 +17,10 @@ getNum = (min = 1, max = 100, type = 0) => Number((Math.random() * (max - min) +
 isArray = (arr) => Array.isArray(arr);
 
 // check if array of objects
-isArrayOfObjects = (arr) => (arr.length && Object.prototype.toString.call(arr[0]) == '[object Object]') ? true : false;
+isArrayOfObjects = (arr) => arr.length && Object.prototype.toString.call(arr[0]) == '[object Object]';
 
 // check if object
-isObject = (obj) => (Object.prototype.toString.call(obj) == '[object Object]') ? true : false;
+isObject = (obj) => Object.prototype.toString.call(obj) == '[object Object]';
 
 // check if empty
 empty = (val) => val.length ? true : false;
