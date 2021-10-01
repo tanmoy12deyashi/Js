@@ -4,7 +4,8 @@
 // get text
 let speechText = document.getElementById('speech-text').innerText;
 // get speech array
-let speechTextArr = speechText.split(' ');
+let speechTextArr = speechText.split(' ')//.filter(text => !text.includes('—'));
+//console.log(speechTextArr)
 // set default variable
 let t, s, e;
 // init obj
@@ -39,8 +40,10 @@ utterance.onboundary  = function() {
     t++;
 }
 function speak() {
+    //window.speechSynthesis.cancel();
     // speeck start
-    window.speechSynthesis.speak(utterance);
+    //window.speechSynthesis.speak(utterance);
+    window.speechSynthesis.speak(new SpeechSynthesisUtterance('Hello World'));
 }
 // init speak
 speak();

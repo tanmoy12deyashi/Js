@@ -1,11 +1,35 @@
+//'use strict'
+
+// set chienese nuber
+Ch = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
+// set spanish nuber
+Sp = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
+// set hindi nuber
+Hn = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
+// set arabic nuber
+Ar = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
+
+/*// set hindi nuber
+Hn = {
+    0: '०',
+    1: '१',
+    2: '२',
+    3: '३',
+    4: '४',
+    5: '५',
+    6: '६',
+    7: '७',
+    8: '८',
+    9: '९'
+}*/
 // get 4 digit hex number
-let s4 = () =>
+s4 = () =>
     Math.floor((1 + Math.random()) * 0x10000)
         .toString(16)
         .substring(1);
 
 // get unique hex id
-uhid = () => s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+uhid = () => s4() + s4() + '-' + s4() + s4() + '-' + s4() + s4() + '-' + s4() + s4() + s4();
 
 // get unique time id
 utid = () => Date.now();
@@ -24,6 +48,29 @@ isObject = (obj) => Object.prototype.toString.call(obj) == '[object Object]';
 
 // check if empty
 empty = (val) => val.length ? true : false;
+
+// replacer 
+replacer = (val, items = {}) => {
+    //console.log(items)
+    // if value
+    if(val) items = mergeObject(items, {'-': '-', '/': '/', '_': '_', ':': ':', ' ': ' '}), val = val.split('').map(_v => items[_v] || _v).join('');
+    return val;
+}
+
+/*function replacer1(val, items = {}) {
+    let sign = {
+        '-': '-',
+        '/': '/',
+        '_': '_'
+    }
+    items = mergeObject(items, sign);
+    console.log(val)
+    console.log(items)
+    console.log(val.split(''))
+    console.log(val.split('').map(_v => items[_v]))
+    console.log(val.split('').map(_v => items[_v] || ' ').join(""))
+    console.log(123)
+}*/
 
 // get merge object
 mergeObject = (...arguments) => {
@@ -135,7 +182,12 @@ function dateTimeFormat(d, rtnFmt, prmFmt) {
     if(rtnFmt.includes('yyyy')) rtnFmt = rtnFmt.replace('yyyy', t);
     else if(rtnFmt.includes('yy')) rtnFmt = rtnFmt.replace('yy', t.toString().substr(-2));
 
+    // available lang
+    let lang = ['En', 'Ch', 'Sp', 'Hn', 'Ar', 'Bn', 'Pr', 'Rn', 'Jn', 'Gn', 'Ur'];
+
+    //console.log(replacer(rtnFmt, Hn))
     return rtnFmt;
+    //return replacer(rtnFmt, Hn);
 }
 
 /*dateTimeFormat.prototype.add = function(v) {
