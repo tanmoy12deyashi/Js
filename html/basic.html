@@ -45,6 +45,31 @@
     <hr style="width:50%;text-align:right;margin-right:0">
     <hr style="width:50%;text-align:left;margin-left:0">
     <hr style="height:30px">
+        
+    <script>
+        let array1 = [1, 2, 3, 4]
+        array1.map(data => {
+            console.log(data)
+        })
 
+        array1.map(function(data) {
+            console.log(data)
+        })
+
+        let arrow_fun = (data) => {
+            console.log('arrow => ' + data)
+        }
+        array1.map(arrow_fun)
+
+        let general_fun = function(data) {
+            console.log('general => ' + data)
+        }
+        array1.map(general_fun)
+
+        let d = array1.findIndex(function(data) {
+            return data > 10;
+        })
+        console.log(d)
+    </script>
 </body>
 </html>
